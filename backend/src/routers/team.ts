@@ -12,6 +12,7 @@ router.get(
         "X-Auth-Token": process.env.API_TOKEN,
       },
     });
+    console.log(result.data);
     res.status(200).json({ partners: result.data, ok: true });
   })
 );
