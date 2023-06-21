@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../css/team-styles.css';
 import axios from 'axios';
 
 interface Team {
@@ -27,7 +28,7 @@ interface ApiResponse {
   };
 }
 
-const ApiComponent: React.FC = () => {
+const Api: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>([]);
 
   useEffect(() => {
@@ -47,9 +48,9 @@ const ApiComponent: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="grid-container">
       {teams.map((team) => (
-        <div key={team.id}>
+        <div key={team.id} className="team">
           <h2>{team.name}</h2>
           <p>Short Name: {team.shortName}</p>
           <p>Tla: {team.tla}</p>
@@ -65,4 +66,4 @@ const ApiComponent: React.FC = () => {
   );
 };
 
-export default ApiComponent;
+export default Api;
