@@ -1,14 +1,18 @@
-import React from 'react';
-import Api from './components/Api';
-import Title from './components/Title'
-
-const App: React.FC = () => {
+import React from "react";
+import Title from "./components/Title";
+//import Teams from "./components/Teams";
+import TeamDetails from "./components/TeamDetails";
+import { BrowserRouter as Router } from "react-router-dom";
+//      <TeamDetails />
   
+const App: React.FC = () => {
   return (
-    <div>
-      <Title />
-      <Api />
-    </div>
+    <Router>
+      <div>
+        <Title />
+        <TeamDetails teamId={4} />
+      </div>
+    </Router>
   );
 };
 
