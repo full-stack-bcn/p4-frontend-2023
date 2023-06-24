@@ -71,6 +71,8 @@ type StaffMember = {
 
 const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
   const [team, setTeam] = useState<Team | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -80,12 +82,20 @@ const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
         );
         setTeam(response.data);
       } catch (error) {
-        console.log(error);
+        setError("An error has occurred while trying to retrieve the data for your selected team. Please select a new team or try again later.");
       }
     };
 
     fetchTeamData();
   }, [teamId]);
+
+  if (error) {
+    return <div className="team-details-container">
+    <div className="team-details-header team-card">
+      {error}
+    </div>
+  </div>;
+  }
 
   if (!team) {
     return <div>Loading...</div>;
@@ -93,7 +103,6 @@ const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
 
   return (
     <>
-      {" "}
       <div className="team-details-container">
         <div className="team-details-header team-card">
           <h1>{team.name}</h1>
