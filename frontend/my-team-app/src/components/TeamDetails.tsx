@@ -93,6 +93,7 @@ const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
 
   return (
     <>
+      {" "}
       <div className="team-details-container">
         <div className="team-details-header team-card">
           <h1>{team.name}</h1>
@@ -124,36 +125,35 @@ const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
             </ul>
           </div>
         </div>
-        <div className="team-details-coach-squad">
+        <div className="team-details-coach">
           <div className="team-details-coach team-card">
             <h2>Coach: {team.coach.name}</h2>
           </div>
         </div>
+      </div>
+      <div className="team-details-container">
+        <div className="team-details-staff team-card">
+          <h2>Squad:</h2>
+          <ul>
+            {team.squad.map((player) => (
+              <li key={player.id}>
+                {player.name} - {player.position}
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="team-details-container">
-          <div className="team-details-squad team-card">
-            <h2>Squad:</h2>
-            <ul>
-              {team.squad.map((player) => (
-                <li key={player.id}>
-                  {player.name} - {player.position}
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          <div className="team-details-staff team-card">
-            <h2>Staff:</h2>
-            <ul>
-              {team.staff.map((staffMember) => (
-                <li key={staffMember.id}>
-                  {staffMember.name} - {staffMember.nationality}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="team-details-staff team-card">
+          <h2>Staff:</h2>
+          <ul>
+            {team.staff.map((staffMember) => (
+              <li key={staffMember.id}>
+                {staffMember.name} - {staffMember.nationality}
+              </li>
+            ))}
+          </ul>
         </div>
-      
+      </div>
     </>
   );
 };

@@ -57,12 +57,7 @@ const Teams: React.FC = () => {
     return (
       <div className="grid-container">
         {teams.map((team) => (
-          <div
-            key={team.id}
-            className="team"
-            onClick={() => handleTeamClick(team.id)}
-            style={{ cursor: "pointer" }}
-          >
+          <div key={team.id} className="team" onClick={() => handleTeamClick(team.id)}>
             <h2>{team.name}</h2>
             <p>Short Name: {team.shortName}</p>
             <p>Tla: {team.tla}</p>
@@ -74,6 +69,7 @@ const Teams: React.FC = () => {
             <p>Founded: {team.founded}</p>
             <p>Club Colors: {team.clubColors}</p>
             <p>Venue: {team.venue}</p>
+            
           </div>
         ))}
         {selectedTeamId && <TeamDetails teamId={selectedTeamId} />}
