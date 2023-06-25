@@ -80,7 +80,7 @@ const TeamDetails: React.FC = () => {
     const fetchTeamData = async () => {
       try {
         const response = await axios.get<Team>(
-          `${process.env.REACT_APP_API_URL}/team/${teamId}/`
+          `${process.env.REACT_APP_API_URL}/teams/${teamId}/`
         );
         setTeam(response.data);
       } catch (error) {
