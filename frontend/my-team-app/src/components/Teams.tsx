@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/team-styles.css";
 import axios from "axios";
 import TeamDetails from "./TeamDetails";
-
+import Title from "./Title";
 
 interface Team {
   id: number;
@@ -32,8 +32,7 @@ interface ApiResponse {
 
 const Teams: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>([]);
-  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
-
+  const [teamId, setSelectedTeamId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,18 +49,26 @@ const Teams: React.FC = () => {
     fetchData();
   }, []);
 
-    const handleTeamClick = (teamId: number) => {
-      setSelectedTeamId(teamId);
-    }
+  const handleTeamClick = (teamId: number) => {
+    setSelectedTeamId(teamId);
+  };
 
-    return (
+  return (
+    <>
+      <Title />
       <div className="grid-container">
         {teams.map((team) => (
-          <div key={team.id} className="team" onClick={() => handleTeamClick(team.id)}>
+          <div
+            key={team.id}
+            className="team"
+            onClick={() => handleTeamClick(team.id)}
+          >
             <h2>{team.name}</h2>
             <p>Short Name: {team.shortName}</p>
             <p>Tla: {team.tla}</p>
-            <img src={team.crest} alt={team.name} />
+            <a href={`http://localhost:3000/TeamDetails/${team.id}`}>
+              <img src={team.crest} alt={team.name} />
+            </a>
             <p>Address: {team.address}</p>
             <p>
               Website: <a href={team.website}>{team.website}</a>
@@ -69,12 +76,11 @@ const Teams: React.FC = () => {
             <p>Founded: {team.founded}</p>
             <p>Club Colors: {team.clubColors}</p>
             <p>Venue: {team.venue}</p>
-            
           </div>
         ))}
-        {selectedTeamId && <TeamDetails teamId={selectedTeamId} />}
       </div>
-    );
-  };
+    </>
+  );
+};
 
-  export default Teams;
+export default Teams;

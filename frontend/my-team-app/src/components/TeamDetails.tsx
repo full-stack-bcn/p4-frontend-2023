@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/team-details-style.css";
 import "../css/team-styles.css";
+import Title from "./Title";
+import { useParams } from "react-router-dom";
 
 type Team = {
   area: {
@@ -69,7 +71,8 @@ type StaffMember = {
   };
 };
 
-const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
+const TeamDetails: React.FC = () => {
+  const {teamId} = useParams();
   const [team, setTeam] = useState<Team | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -90,11 +93,11 @@ const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
   }, [teamId]);
 
   if (error) {
-    return <div className="team-details-container">
-    <div className="team-details-header team-card">
-      {error}
-    </div>
-  </div>;
+    return <><Title /><div className="team-details-container">
+      <div className="team-details-header team-card">
+        {error}
+      </div>
+    </div></>;
   }
 
   if (!team) {
@@ -103,9 +106,10 @@ const TeamDetails: React.FC<{ teamId: number }> = ({ teamId }) => {
 
   return (
     <>
+      <Title />
       <div className="team-details-container">
         <div className="team-details-header team-card">
-          <h1>{team.name}</h1>
+          <h1>{team.name}</h1>        
           <img src={team.crest} alt={team.name} />
         </div>
       </div>
