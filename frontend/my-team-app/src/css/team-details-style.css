@@ -24,8 +24,8 @@
 }
 
 .team-details-image img {
-  width: 200px;
-  height: auto;
+  max-width: 190px;
+  max-height: 190px;
 }
 
 .team-details-main {
@@ -55,4 +55,20 @@
 
 .team-details-staff {
   grid-column: span 2;
+}
+
+.competitions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.competitions .data-competitions {
+  width: 40%;
+}
+
+
+.competitions .img{
+  max-width: 15px;
+  max-height: 15px;
 }

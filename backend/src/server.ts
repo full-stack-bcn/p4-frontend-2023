@@ -13,7 +13,7 @@ app.use(express.json());
 //to log request http
 app.use(morgan("dev"));
 
-app.use("/team", team);
+app.use("/teams", team);
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`The API listening on: ${process.env.SERVER_PORT}`);

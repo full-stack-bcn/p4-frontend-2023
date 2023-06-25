@@ -72,10 +72,9 @@ type StaffMember = {
 };
 
 const TeamDetails: React.FC = () => {
-  const {teamId} = useParams();
+  const { teamId } = useParams();
   const [team, setTeam] = useState<Team | null>(null);
   const [error, setError] = useState<string | null>(null);
-
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -85,7 +84,9 @@ const TeamDetails: React.FC = () => {
         );
         setTeam(response.data);
       } catch (error) {
-        setError("An error has occurred while trying to retrieve the data for your selected team. Please select a new team or try again later.");
+        setError(
+          "An error has occurred while trying to retrieve the data for your selected team. Please select a new team or try again later."
+        );
       }
     };
 
@@ -93,11 +94,14 @@ const TeamDetails: React.FC = () => {
   }, [teamId]);
 
   if (error) {
-    return <><Title /><div className="team-details-container">
-      <div className="team-details-header team-card">
-        {error}
-      </div>
-    </div></>;
+    return (
+      <>
+        <Title />
+        <div className="team-details-container">
+          <div className="team-details-header team-card">{error}</div>
+        </div>
+      </>
+    );
   }
 
   if (!team) {
@@ -109,8 +113,10 @@ const TeamDetails: React.FC = () => {
       <Title />
       <div className="team-details-container">
         <div className="team-details-header team-card">
-          <h1>{team.name}</h1>        
-          <img src={team.crest} alt={team.name} />
+          <h1>{team.name}</h1>
+          <div className="team-details-image ">
+            <img src={team.crest} alt={team.name} />
+          </div>
         </div>
       </div>
       <div className="team-details-container">
@@ -132,7 +138,15 @@ const TeamDetails: React.FC = () => {
             <ul>
               {team.runningCompetitions.map((competition) => (
                 <li key={competition.id}>
-                  {competition.name} - {competition.type}
+                  <div className="competitions">
+                    <div className="data-competitions">
+                      <h2>{competition.name}</h2>
+                      <h2>Type: {competition.type}</h2>
+                    </div>
+                    <div>
+                      <img src={competition.emblem} alt={competition.name} />
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -141,6 +155,12 @@ const TeamDetails: React.FC = () => {
         <div className="team-details-coach">
           <div className="team-details-coach team-card">
             <h2>Coach: {team.coach.name}</h2>
+            <p>First Name: {team.coach.firstName}</p>
+            <p>Last Name: {team.coach.lastName}</p>
+            <p>Date of Birth: {team.coach.dateOfBirth}</p>
+            <p>Nationality: {team.coach.nationality}</p>
+            <p>Contract Start: {team.coach.contract.start}</p>
+            <p>Contract Until: {team.coach.contract.until}</p>
           </div>
         </div>
       </div>
@@ -150,7 +170,12 @@ const TeamDetails: React.FC = () => {
           <ul>
             {team.squad.map((player) => (
               <li key={player.id}>
-                {player.name} - {player.position}
+                <div className="player-details">
+                  <h3>{player.name}</h3>
+                  <p>Position: {player.position}</p>
+                  <p>Date of Birth: {player.dateOfBirth}</p>
+                  <p>Nationality: {player.nationality}</p>
+                </div>
               </li>
             ))}
           </ul>

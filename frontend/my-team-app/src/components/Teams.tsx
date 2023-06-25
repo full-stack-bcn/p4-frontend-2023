@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/team-styles.css";
 import axios from "axios";
-import TeamDetails from "./TeamDetails";
 import Title from "./Title";
 
 interface Team {
@@ -31,26 +30,31 @@ interface ApiResponse {
 }
 
 const Teams: React.FC = () => {
+  const limit = 50;
+  const [currentOffset, setCurrentOffset] = useState<number>(0);
   const [teams, setTeams] = useState<Team[]>([]);
-  const [teamId, setSelectedTeamId] = useState<number | null>(null);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<ApiResponse>(
+        `${process.env.REACT_APP_API_URL}/teams?limit=${limit}&offset=${currentOffset}`
+      );
+      setTeams(response.data.partners.teams);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<ApiResponse>(
-          process.env.REACT_APP_API_URL + "/team"
-        );
-        setTeams(response.data.partners.teams);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchData();
   }, []);
 
-  const handleTeamClick = (teamId: number) => {
-    setSelectedTeamId(teamId);
+  const handlePreviousClick = () => {
+    setCurrentOffset((prevOffset) => prevOffset - 50);
+  };
+
+  const handleNextClick = () => {
+    setCurrentOffset((prevOffset) => prevOffset + 50);
   };
 
   return (
@@ -58,11 +62,7 @@ const Teams: React.FC = () => {
       <Title />
       <div className="grid-container">
         {teams.map((team) => (
-          <div
-            key={team.id}
-            className="team"
-            onClick={() => handleTeamClick(team.id)}
-          >
+          <div key={team.id} className="team">
             <h2>{team.name}</h2>
             <p>Short Name: {team.shortName}</p>
             <p>Tla: {team.tla}</p>
@@ -79,6 +79,7 @@ const Teams: React.FC = () => {
           </div>
         ))}
       </div>
+      
     </>
   );
 };
