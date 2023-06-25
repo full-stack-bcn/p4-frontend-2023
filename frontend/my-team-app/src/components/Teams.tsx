@@ -18,15 +18,13 @@ interface Team {
 }
 
 interface ApiResponse {
-  partners: {
-    count: number;
-    filters: {
-      limit: number;
-      offset: number;
-      permission: string;
-    };
-    teams: Team[];
+  count: number;
+  filters: {
+    limit: number;
+    offset: number;
+    permission: string;
   };
+  teams: Team[];
 }
 
 const Teams: React.FC = () => {
@@ -34,20 +32,22 @@ const Teams: React.FC = () => {
   const [currentOffset, setCurrentOffset] = useState<number>(0);
   const [teams, setTeams] = useState<Team[]>([]);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get<ApiResponse>(
-        `${process.env.REACT_APP_API_URL}/teams?limit=${limit}&offset=${currentOffset}`
-      );
-      setTeams(response.data.partners.teams);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get<ApiResponse>(
+          `${process.env.REACT_APP_API_URL}/teamPagination/${limit}/${currentOffset}`
+        );
+  
+        setTeams(response.data.teams);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchData();
-  }, []);
+  },[currentOffset]);
 
   const handlePreviousClick = () => {
     setCurrentOffset((prevOffset) => prevOffset - 50);
@@ -60,6 +60,12 @@ const Teams: React.FC = () => {
   return (
     <>
       <Title />
+      <div className="grid-container">
+        <button onClick={handlePreviousClick} disabled={currentOffset === 0}>
+          Anterior
+        </button>
+        <button onClick={handleNextClick}>Siguiente</button>
+      </div>
       <div className="grid-container">
         {teams.map((team) => (
           <div key={team.id} className="team">
@@ -79,7 +85,12 @@ const Teams: React.FC = () => {
           </div>
         ))}
       </div>
-      
+      <div className="grid-container">
+        <button onClick={handlePreviousClick} disabled={currentOffset === 0}>
+          Anterior
+        </button>
+        <button onClick={handleNextClick}>Siguiente</button>
+      </div>
     </>
   );
 };
